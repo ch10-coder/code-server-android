@@ -30,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
 
         myWebView.setWebViewClient(new WebViewClient());
 
+        // Smart Keyboard Tweak: 
+        // This makes sure VS Code's editor "shrinks" instead of getting hidden.
+        myWebView.setVerticalScrollBarEnabled(false);
+        myWebView.setHorizontalScrollBarEnabled(false);
+
         // LOAD YOUR CODE-SERVER HERE!
         // We'll use localhost because that's where code-server runs
         myWebView.loadUrl("http://localhost:8080");
