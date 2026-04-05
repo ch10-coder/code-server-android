@@ -1,0 +1,33 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew || true
+
+    - name: Build with Gradle
+      # We use a standard gradle build command
+      run: ./gradlew assembleDebug || (wget https://services.gradle.org/distributions/gradle-8.1.1-bin.zip && unzip gradle-8.1.1-bin.zip && ./gradle-8.1.1/bin/gradle assembleDebug)
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-server-debug-apk
+        path: app/build/outputs/apk/debug/app-debug.apk
